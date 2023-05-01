@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="UserFavorite.css">
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css' rel='stylesheet' />
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Montserrat">
+    </head>
+    <body>
+        
+        <div class="header">
+            <nav>
+                <label class="logo"><a href=homepage.html>TripJoy</a></label>
+                <ul>
+                    <li><a href="#">LOG IN</a></li>
+                    <li><a href="addFavorite.html">FAVORITE</a></li>
+                </ul>
+            </nav>
+        </div>
+        <br>
+        <br>
+        
+        <div class="favorites">
+            <center>
+                <h1>Favorites</h1>
+                <hr>
+            </center>
+            <br>
+            <br>
+            <div id="favorite-list" class="row"></div>
+        </div>
+        <br>
+        <br>
+        <div id="map" style="height: 400px; align-items:right;">
+        <br>
+        
+        <footer>
+            <article>
+                <div class="footerContent">
+                    <span>&#169 COMP 324</span>
+                    <br>
+                    <br>
+                </div>
+            </article>
+        </footer>
+        
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiZXBoaWxpcHMiLCJhIjoiY2xoNTc0ZW1mMHJ2MzN0bzM2YTZvaW9wYyJ9.qF3gUB9i6pwTkfiKtI7ftw';
+            
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const favoriteList = document.getElementById('favorite-list');
+            
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [-96, 37.8],
+                zoom: 3
+            });
+            
+            map.addControl(new mapboxgl.NavigationControl());
+            
+            favorites.forEach((cardInfo, index) => {
+                const card = document.createElement('div');
+                card.innerHTML = `
+        <div class="card">
+            <img class="image" src="${cardInfo.image || 'Image not available'}">
+            <div class="card-body">
+                <h3 class="title">${cardInfo.title || 'Title not available'}</h3>
+                <p class="description">${cardInfo.description || 'Description not available'}</p>
+                <button onclick="removeFavorite(this)">Remove</button>
+            </div>
+        </div>
+    `;
+                favoriteList.appendChild(card);
+                
+                new mapboxgl.Marker()
+                .setLngLat([cardInfo.longitude, cardInfo.latitude])
+                .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                    .setHTML(`<h3>${cardInfo.title || 'Title not available'}</h3><p>${cardInfo.description || 'Description not available'}</p>`))
+                .addTo(map);
+            });
+
+            
+            function removeFavorite(button) {
+                const card = button.closest('.card');
+                const cardTitle = card.querySelector('.title').textContent;
+                
+                let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                
+                favorites = favorites.filter((cardInfo) => cardInfo.title !== cardTitle);
+                
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                
+                card.remove();
+            }
+    </script> 
+</body>
+</html>

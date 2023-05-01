@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="placesStyle.css">
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Montserrat">
+  </head>
+  <body>
+    <div class="header">
+      <nav>
+        <label class="logo"><a href="homepage.html">TripJoy</a></label>
+        <ul>
+          <li><a href="#">LOGIN</a></li>
+          <li><a href="addFavorite.html">FAVORITES</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <center>
+      <h1 id="headName"></h1>
+      <hr>
+      <br>
+      <div id="cards"></div>
+      <br> 
+    </center>
+
+    <footer>
+      <article>
+        <div class="footerContent">
+          <span>&#169; COMP 324</span>
+          <br>
+          <br>
+        </div>
+      </article>
+    </footer>
+
+    <script>
+      function showData() {
+        const data = JSON.parse(localStorage.getItem('apiData'));
+        const cardsContainer = document.getElementById('cards');
+        data.forEach((place, index) => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+          card.innerHTML = `
+      <h2 class="title">${place.name}</h2>
+      <p class="description">${place.description.split(' ').slice(0,40).join(' ')}...</p>
+      <img class="image" src="${place.photo.images.small.url}" alt="${place.name}">
+      <br>
+      <button class="favorite-button">♡</button>
+    `;
+          cardsContainer.appendChild(card);
+          const favoriteButton = card.querySelector('.favorite-button');
+          favoriteButton.addEventListener('click', () => {
+            toggleFavorite(card, favoriteButton, place);
+          });
+        
+        });
+      }
+      
+
+      
+      function toggleFavorite(card, button, place) {
+        if (button.classList.contains('red')) {
+          button.classList.remove('red');
+          addFavorite(card, place, button);
+        } else {
+          button.classList.add('red');
+          addFavorite(card, place, button);
+        }
+      }   
+      
+      function addFavorite(card, place, button) {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        
+        if (button.classList.contains('red')) {
+          const exists = favorites.some((favorite) => favorite.title === place.name);
+          if (!exists) {
+            const newCard = {
+              title: place.name,
+              description: place.description,
+              image: place.photo.images.small.url
+            };
+            favorites.push(newCard);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+          }
+        } else {
+          const filteredFavorites = favorites.filter((favorite) => favorite.title !== place.name);
+          localStorage.setItem('favorites', JSON.stringify(filteredFavorites));
+        }
+        
+        localStorage.setItem('cardInfo', JSON.stringify(card));
+        
+        const cardList = JSON.parse(localStorage.getItem('cardList')) || [];
+        const favoriteList = document.getElementById('favorites-list');
+        
+        for (let i = 0; i < cardList.length; i++) {
+          const card = cardList[i];
+          const li = document.createElement('li');
+          favoriteList.appendChild(li);
+        }
+      }
+      
+      window.addEventListener('DOMContentLoaded', () => {
+        const nameOfPlace = localStorage.getItem('placeName').toString();
+        const heading = document.getElementById('headName');
+        heading.textContent = nameOfPlace.toString();
+        showData();
+      });
+
+    </script>
+  </body>
+</html>
