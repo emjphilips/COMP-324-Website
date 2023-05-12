@@ -9,6 +9,10 @@ font-family: 'Montserrat', serif;
   text-align: center;
   color:#555555;
 }
+h3{ 
+  font-family: 'Montserrat', serif;
+  font-size: 25px;
+} 
 .content_img{
   position: relative;
   width: 200px;
@@ -24,7 +28,7 @@ font-family: 'Montserrat', serif;
   background: black;
   color: white;
   margin-bottom: 5px;
-  font-family: sans-serif;
+font-family: 'Montserrat', serif;
   opacity: 0;
   visibility: hidden;
   -webkit-transition: visibility 0s, opacity 0.5s linear; 
@@ -43,6 +47,7 @@ font-family: 'Montserrat', serif;
   
 }
 .MostPopular{
+  font-family: 'Montserrat', serif;
   text-align: center;
 }
 .column {
@@ -109,6 +114,7 @@ nav {
             }
             
             .search-form input[type="text"] {
+              font-family: 'Montserrat', serif;
               width: 100%;
               padding: 10px;
               font-size: 1.2rem;
@@ -117,6 +123,7 @@ nav {
             }
             
             .search-form button {
+              font-family: 'Montserrat', serif;
               padding: 10px 20px;
               font-size: 1.2rem;
               background-color: #426255;
@@ -179,4 +186,11 @@ article {
   padding: 15px; 
   color:#555555;
   margin: 10px; 
+}
+.marker {
+  background-color: #3366FF;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
 }
