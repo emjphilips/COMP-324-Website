@@ -5,6 +5,8 @@
         <link rel="stylesheet" href="UserFavorite.css">
         <script src='https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js'></script>
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css' rel='stylesheet' />
+        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.1/mapbox-gl-geocoder.css" />
+        <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.1/mapbox-gl-geocoder.min.js'></script>
         <link rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Montserrat">
     </head>
@@ -33,7 +35,7 @@
         </div>
         <br>
         <br>
-        <div id="map" style="height: 400px; align-items:right;">
+        <div id="map" style="height: 400px; display: flex; justify-content: flex-end; border: 2px solid black;"></div>
         <br>
         
         <footer>
@@ -45,7 +47,8 @@
                 </div>
             </article>
         </footer>
-        
+        </body>
+        </html>
         <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiZXBoaWxpcHMiLCJhIjoiY2xoNTc0ZW1mMHJ2MzN0bzM2YTZvaW9wYyJ9.qF3gUB9i6pwTkfiKtI7ftw';
             
@@ -63,23 +66,34 @@
             
             favorites.forEach((cardInfo, index) => {
                 const card = document.createElement('div');
+                
                 card.innerHTML = `
         <div class="card">
             <img class="image" src="${cardInfo.image || 'Image not available'}">
             <div class="card-body">
                 <h3 class="title">${cardInfo.title || 'Title not available'}</h3>
-                <p class="description">${cardInfo.description || 'Description not available'}</p>
+                <p class="description">${cardInfo.description ? cardInfo.description.split(' ').slice(0, 40).join(' ') + '...' : 'Description not available'}</p>
                 <button onclick="removeFavorite(this)">Remove</button>
             </div>
         </div>
     `;
-                favoriteList.appendChild(card);
                 
-                new mapboxgl.Marker()
-                .setLngLat([cardInfo.longitude, cardInfo.latitude])
-                .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-                    .setHTML(`<h3>${cardInfo.title || 'Title not available'}</h3><p>${cardInfo.description || 'Description not available'}</p>`))
-                .addTo(map);
+                favoriteList.appendChild(card);
+
+                const geolocateControl = new mapboxgl.GeolocateControl({
+                    positionOptions: {
+                        enableHighAccuracy: true
+                    },
+                    trackUserLocation: true
+                });
+                map.addControl(geolocateControl);
+                
+                geolocateControl.on('geolocate', (event) => {
+                    const latitude = event.coords.latitude;
+                    const longitude = event.coords.longitude;
+                    console.log('Latitude: ', latitude);
+                    console.log('Longitude: ', longitude);
+                });
             });
 
             
@@ -95,6 +109,5 @@
                 
                 card.remove();
             }
-    </script> 
-</body>
-</html>
+            
+    </script>
