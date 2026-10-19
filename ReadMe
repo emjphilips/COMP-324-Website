@@ -1,1 +1,72 @@
 COMP 324 - Project 
+TripJoy — Travel Planning Website
+TripJoy is a travel planning website developed for COMP 324 at Loyola University Chicago. It helps users explore cities around the world, discover popular attractions, and save places they are interested in visiting.
+
+The goal of TripJoy is to make vacation planning easier by bringing destination discovery and favorite attractions together in one place.
+
+Features
+City Search: Search for a destination by city name using the Travel Advisor API.
+Popular Destinations: Browse featured cities, including London, Paris, New York City, Tokyo, Dubai, Barcelona, Rome, and Madrid.
+Attraction Discovery: Retrieve and browse attractions associated with a selected destination.
+Favorites: Save interesting attractions to a favorites list and remove them when they are no longer needed.
+Map Integration: View a map on the favorites page using Mapbox to support trip planning.
+Persistent Browser Storage: Use browser localStorage to retain search results and saved favorites between page visits.
+
+Technologies Used
+HTML5 — Page structure and content
+CSS3 — Styling, layouts, and visual presentation
+JavaScript — Search functionality, API requests, favorites management, and browser storage
+Travel Advisor API (RapidAPI) — Destination search and attraction data
+Mapbox GL JS — Interactive map integration
+Google Fonts — Montserrat typography
+Project Structure
+
+COMP-324-Website/
+
+├── homepage.html          # Main landing page and city search
+
+├── homepageCSS.css        # Homepage styling
+
+├── SearchFunctionality.js # Destination search and API requests
+
+├── places.html             # Destination attraction listings
+
+├── placesStyle.css         # Destination page styling
+
+├── addFavorite.html        # Saved attractions and map
+
+├── UserFavorite.css        # Favorites page styling
+
+├── BarcelonaCity.jpeg      # Destination image
+
+├── DubaiCity.jpeg          # Destination image
+
+├── MardidCity.jpeg         # Destination image
+
+├── ToykoCity.jpeg          # Destination image
+
+├── amsterdamCity.jpeg      # Destination image
+
+├── londonCity.jpeg         # Destination image
+
+├── newyorkCity.webp        # Destination image
+
+├── parisCity.jpeg          # Destination image
+
+└── romeCity.jpeg           # Destination image
+
+
+
+Limitations
+Search and attraction discovery depend on the availability and configuration of the external API.
+Favorites and search data are stored in the current browser rather than in a centralized user account or database.
+The login link is present in the interface, but a complete authentication system is not implemented in the current code.
+Booking flights and accommodations is outside the functionality currently implemented.
+
+Future Improvements
+Implement secure user authentication and account-based favorites.
+Improve responsive layouts for mobile devices and tablets.
+Add more robust error handling for failed API requests and empty search results.
+Allow users to organize favorite attractions into individual trips.
+Add trip itineraries and route-planning features.
+Improve accessibility and form validation.
